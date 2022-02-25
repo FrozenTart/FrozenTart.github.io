@@ -1,0 +1,259 @@
+<HTML>
+	<head>
+		<title>Moji Simulator</title>
+		
+		<style>
+			.sectionLeft{
+				float: left;
+				width: 80%;
+			}
+			.sectionRight{
+				float:right;
+				width: 20%;
+			}
+			.braincellsContainer {
+				background-color: rgb(238, 238, 238, 0.6);
+				width: 50%;
+				padding: 10px;
+				border-radius: 10px;
+				font-size: 24px;
+				font-weight: bold;
+			}
+			
+			.clickerContainer img {
+				position: relative;
+				transition: all.2s ease-in-out;
+			}
+			
+			.clickerContainer img:hover { transform: scale(1.10);}
+			.clickerContainer img:active { transform: scale(0.99);}
+			
+			.shopButton {
+				background-color: #b5b5b5;
+				transition: all .2s ease-in-out;
+				border-radius: 10px;
+				width: 100%;
+				margin: 10px 0px 10px 0px;
+			}
+				
+			.shopButton:hover {
+				background-color: #c7c7c7;
+				transition: all .2s ease-in-out;
+			}
+				
+			.shopButton #image {
+				width: 25%;
+				
+			}
+			
+			.shopButton img {
+				height: 64px;
+				width: 64px;
+			}
+			
+			.shopButton #nameAndCost p {
+				margin: 0px;
+				width: 60%;
+			}
+			
+			.shopButton #nameAndCost p:first-of-type {
+				font-size: 24px;
+				
+			}
+			
+			.shopButton #amount {
+				font-size: 48px;
+				color: #595959;
+				font-family: roboto;
+				width: 15%;
+			}
+			
+			.sectionFooter {
+				margin-top: 20%;
+			}
+			
+			.unselectable {
+				-webkit-user-select: none;
+				-moz-user-select: none;
+				-ms-user-select: none; /* if not using a chromium browser */
+				user-select: none;
+			}
+			
+		</style>
+	</head>
+	
+	<body>
+	  <div class="sectionLeft">
+		<center>
+			<div class="braincellsContainer unselectable">
+				<p>Braincells: <span id ="braincells">0</span></p> <br>
+				<span id="braincellspersecond">0</span> Braincells per seconds
+			</div>
+			<br>
+			<div class="clickerContainer unselectable">
+				<img src="https://frozentart.github.io/clicker.png" height="256 px" width="256 px" onclick="addTobraincells(clickingPower)">
+			</div>
+			<br>
+			<button onclick="saveGame();">Save Game</button>
+		</center>
+		
+		<div class="sectionFooter">
+			<h5>Moji Simulator</h5>
+			<button onclick="resetGame();">Reset Game</button>
+		</div>
+		</div>
+		
+		<div class="sectionRight">
+			<table class="shopButton unselectable" onclick="buyshitpost()">
+				<tr>
+					<td id="image"><img src="https://frozentart.github.io/factory1.png"></td>
+					<td id="nameAndCost">
+						<p>Shitpost</p>
+						<p><span id="shitpostCost">15</span> Braincells</p>
+					</td>
+					<td id="amount"><span id="shitposts">0</span></td>
+				</tr>
+			</table>
+			<table class="shopButton unselectable" onclick="buySkadi()">
+				<tr>
+					<td id="image"><img src="https://frozentart.github.io/factory2.png"></td>
+					<td id="nameAndCost">
+						<p>Skadiiiii</p>
+						<p><span id="skadiCost">100</span> Braincells</p>
+					</td>
+					<td id="amount"><span id="skadis">0</span></td>
+				</tr>
+			</table>
+			<table class="shopButton unselectable" onclick="buywilsen()">
+				<tr>
+					<td id="image"><img src="https://frozentart.github.io/factory3.png"></td>
+					<td id="nameAndCost">
+						<p>Wilsen</p>
+						<p><span id="wilsenCost">2000</span> Braincells</p>
+					</td>
+					<td id="amount"><span id="wilsens">0</span></td>
+				</tr>
+			</table>
+		</div>
+		
+		
+		<script>
+			var braincells = 0;
+			var clickingPower = 1;
+			
+			var shitpostCost = 15;
+			var shitposts = 0;
+			var skadiCost = 100;
+			var skadis = 0;
+			var wilsenCost = 2000;
+			var wilsens = 0;
+			
+			function buyshitpost() {
+				if (braincells >= shitpostCost) {
+					braincells = braincells - shitpostCost;
+					shitposts = shitposts + 1;
+					shitpostCost = Math.round(shitpostCost * 1.15);
+					
+					document.getElementById("braincells").innerHTML = braincells;
+					document.getElementById("shitpostCost").innerHTML = shitpostCost;
+					document.getElementById("shitposts").innerHTML = shitposts;
+					updatebraincellspersecond();
+				}
+			}
+			
+			function buySkadi() {
+				if (braincells >= skadiCost) {
+					braincells = braincells - skadiCost;
+					skadis = skadis + 1;
+					skadiCost = Math.round(skadiCost * 1.15);
+					
+					document.getElementById("braincells").innerHTML = braincells;
+					document.getElementById("skadiCost").innerHTML = skadiCost;
+					document.getElementById("skadis").innerHTML = skadis;
+					updatebraincellspersecond();
+				}
+			}
+			
+			function buywilsen() {
+				if (braincells >= wilsenCost) {
+					braincells = braincells - wilsenCost;
+					wilsens = wilsens + 1;
+					wilsenCost = Math.round(wilsenCost * 1.5);
+					
+					document.getElementById("braincells").innerHTML = braincells;
+					document.getElementById("wilsenCost").innerHTML = wilsenCost;
+					document.getElementById("wilsens").innerHTML = wilsens;
+					updatebraincellspersecond();
+				}
+			}
+			
+			function addTobraincells(amount) {
+				braincells = braincells + amount;
+				document.getElementById("braincells").innerHTML = braincells;
+			}
+			
+			function updatebraincellspersecond() {
+				braincellspersecond = shitposts + (skadis * 5) + (wilsens * 210);
+				document.getElementById("braincellspersecond").innerHTML = braincellspersecond;
+			}
+			
+			function loadGame() {
+				var savedGame = JSON.parse(localStorage.getItem("gameSave"));
+				if (typeof savedGame.braincells !== "undefined") braincells = savedGame.braincells;
+				if (typeof savedGame.clickingPower !== "undefined") clickingPower = savedGame.clickingPower;
+				if (typeof savedGame.shitpostCost !== "undefined") shitpostCost = savedGame.shitpostCost;
+				if (typeof savedGame.shitposts !== "undefined") shitposts = savedGame.shitposts;
+				if (typeof savedGame.skadiCost !== "undefined") skadiCost = savedGame.skadiCost;
+				if (typeof savedGame.skadis !== "undefined") skadis = savedGame.skadis;
+				if (typeof savedGame.wilsenCost !== "undefined") wilsenCost = savedGame.wilsenCost;
+				if (typeof savedGame.wilsens !== "undefined") wilsens = savedGame.wilsens;
+			}
+			
+			function saveGame() {
+				var gameSave = {
+					braincells: braincells,
+					clickingPower: clickingPower,
+					shitpostCost: shitpostCost,
+					shitposts: shitposts,
+					skadiCost: skadiCost,
+					skadis: skadis,
+					wilsenCost: wilsenCost,
+					wilsens: wilsens
+				};
+				localStorage.setItem("gameSave", JSON.stringify(gameSave));
+			}
+			
+			function resetGame() {
+				if (confirm("Are you sure you want to reset your game")) {
+					var gameSave = {};
+					localStorage.setItem("gameSave", JSON.stringify(gameSave));
+					location.reload();
+					
+				}
+			}
+			
+			window.onload = function() {
+				loadGame();
+				updatebraincellspersecond();
+				document.getElementById("braincells").innerHTML = braincells;
+				document.getElementById("shitpostCost").innerHTML = shitpostCost;
+				document.getElementById("shitposts").innerHTML = shitposts;
+				document.getElementById("skadiCost").innerHTML = skadiCost;
+				document.getElementById("skadis").innerHTML = skadis;
+				document.getElementById("wilsenCost").innerHTML = wilsenCost;
+				document.getElementById("wilsens").innerHTML = wilsens;
+			};
+			
+			setInterval(function() {
+				braincells = braincells + shitposts;
+				braincells = braincells + skadis * 5;
+				braincells = braincells + wilsens * 210;
+				document.getElementById("braincells").innerHTML = braincells;
+			}, 1000);//1000ms = 1 second
+			
+			setInterval(function() {
+			 saveGame();
+			}, 30000) //30000ms = 30 seconds
+		</script>
+	</body>
+</HTML>
